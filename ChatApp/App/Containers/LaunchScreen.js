@@ -11,7 +11,7 @@ export default class LaunchScreen extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = { text: "" };
+    this.state = { text: "User" };
   }
   render() {
     const { navigate } = this.props.navigation;
