@@ -6,11 +6,15 @@ import { Images } from "../Themes";
 import styles from "./Styles/LaunchScreenStyles";
 
 export default class LaunchScreen extends Component {
+  static navigationOptions = {
+    title: "Welcome"
+  };
   constructor(props) {
     super(props);
     this.state = { text: "" };
   }
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.mainContainer}>
         <ScrollView style={styles.container}>
@@ -27,7 +31,10 @@ export default class LaunchScreen extends Component {
               onChangeText={text => this.setState({ text })}
               value={this.state.text}
             />
-            <Button title="Enter" />
+            <Button
+              title="Enter"
+              onPress={() => navigate("ChatScreen", { name: this.state.text })}
+            />
           </View>
         </ScrollView>
       </View>
