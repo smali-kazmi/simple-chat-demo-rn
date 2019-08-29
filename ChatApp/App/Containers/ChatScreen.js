@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ScrollView, Text, Image, View, TextInput, Button } from "react-native";
 import { Images } from "../Themes";
+import Message from "../Components/Message";
 
 // Styles
 import styles from "./Styles/LaunchScreenStyles";
@@ -24,6 +25,17 @@ export default class ChatScreen extends Component {
 
     console.log(this.state.messages);
   }
+  showMessages() {
+    return this.state.messages.length ? (
+      this.state.messages.map((message, index) => {
+        return <Message message={message} key={index} />;
+      })
+    ) : (
+      <View>
+        <Text>No New Message</Text>
+      </View>
+    );
+  }
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -33,9 +45,7 @@ export default class ChatScreen extends Component {
               {this.state.name}! Welcome to chat screen
             </Text>
           </View>
-
-          <View style={styles.section}></View>
-
+          <View style={styles.section}>{this.showMessages()}</View>
           <View style={styles.section}>
             <TextInput
               style={{
