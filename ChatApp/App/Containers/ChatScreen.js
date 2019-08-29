@@ -13,7 +13,7 @@ export default class ChatScreen extends Component {
     const { state } = this.props.navigation;
     const _this = this;
     this.state = { name: state.params.name, text: "", messages: [] };
-    this.socket = SocketIOClient("http://local-ws.hucu.ai:3002", {
+    this.socket = SocketIOClient("http://localhost:3002", {
       transports: ["polling", "websocket"]
     });
 
