@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ScrollView, Text, Image, View, TextInput, Button } from "react-native";
 import { Images } from "../Themes";
 import Message from "../Components/Message";
+import SocketIOClient from "socket.io-client";
 
 // Styles
 import styles from "./Styles/LaunchScreenStyles";
@@ -10,8 +11,20 @@ export default class ChatScreen extends Component {
   constructor(props) {
     super(props);
     const { state } = this.props.navigation;
+    const _this = this;
     this.state = { name: state.params.name, text: "", messages: [] };
+    this.socket = SocketIOClient("http://local-ws.hucu.ai:3002", {
+      transports: ["polling", "websocket"]
+    });
+
+    this.receiveMessage = this.receiveMessage.bind(this);
+
+    this.socket.on("ChatApp:NewMsgRece", function(payload) {
+      console.log("ChatApp:NewMsgRece", payload);
+      _this.receiveMessage(payload);
+    });
   }
+
   sendMessage() {
     console.log("i m called");
     const sender = this.state.name;
@@ -19,7 +32,14 @@ export default class ChatScreen extends Component {
 
     const messages = this.state.messages;
 
-    messages.push({ sender, message });
+    this.socket.emit("ChatApp:NewMsg", { sender, message });
+    this.receiveMessage({ sender, message });
+  }
+
+  receiveMessage(message) {
+    const messages = this.state.messages;
+
+    messages.push(message);
 
     this.setState({ text: "", messages: messages });
 
