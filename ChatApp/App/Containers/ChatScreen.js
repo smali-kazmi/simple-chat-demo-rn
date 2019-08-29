@@ -8,14 +8,17 @@ import styles from "./Styles/LaunchScreenStyles";
 export default class ChatScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { text: "" };
+    const { state } = this.props.navigation;
+    this.state = { name: state.params.name };
   }
   render() {
     return (
       <View style={styles.mainContainer}>
         <ScrollView style={styles.container}>
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Welcome to chat screen</Text>
+            <Text style={styles.sectionTitle}>
+              {this.state.name}! Welcome to chat screen
+            </Text>
           </View>
         </ScrollView>
       </View>
